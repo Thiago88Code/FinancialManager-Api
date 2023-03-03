@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 exports.up = (knex) => knex.schema.createTable('transactions', (table) => {
-  table.increments('id').primary();
+  table.increments('tr_id').primary();
   table.string('description').notNullable();
   table.enu('type', ['I', 'O']).notNullable();
   table.date('date').notNullable();

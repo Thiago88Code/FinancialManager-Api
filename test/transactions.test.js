@@ -33,13 +33,93 @@ it(' Should an account of an user return just they own transactions', async () =
       description: 'T1', type: 'I', date: new Date(), amount: 100, acc_id: account1.id,
     },
     {
-      description: 'T2', type: 'O', date: new Date(), amount: 178, acc_id: account2.id,
+      description: 'T1', type: 'I', date: new Date(), amount: 55, acc_id: account2.id,
     },
   ]);
   const res = await request(app).get(MAIN_ROUTE)
     .set('Authorization', `Bearer ${user1.token}`);
-  console.log(res.body);
+  // console.log(res.body);
   expect(res.status).toBe(200);
   expect(res.body).toHaveLength(1);
   expect(res.body[0].description).toBe('T1');
+});
+
+it('Should create a transaction successfully', async () => {
+  const res = await request(app).post(MAIN_ROUTE)
+    .set('Authorization', `Bearer ${user1.token}`)
+    .send({
+      description: 'T3',
+      type: 'O',
+      date: new Date(),
+      amount: 255,
+      acc_id: account1.id,
+    });
+  expect(res.status).toBe(201);
+});
+
+it('Should get a specific transaction by id', async () => {
+  const response = await app.db('transactions').insert({
+    description: 'VTNC',
+    type: 'O',
+    date: new Date(),
+    amount: 255,
+    acc_id: account1.id,
+  }, ['tr_id']);
+
+  // console.log(response[0].tr_id);
+  const res = await request(app).get(`${MAIN_ROUTE}/${response[0].tr_id}`)
+    .set('Authorization', `Bearer ${user1.token}`);
+  expect(res.status).toBe(200);
+  expect(res.body.tr_id).toBe(response[0].tr_id);
+  console.log(res.body);
+});
+
+it('Should update a transaction successfully', async () => {
+  const response = await app.db('transactions').insert({
+    description: 'VTNC',
+    type: 'O',
+    date: new Date(),
+    amount: 255,
+    acc_id: account1.id,
+  }, ['*']);
+
+  console.log(response[0].tr_id);
+  const res = await request(app).put(`${MAIN_ROUTE}/${response[0].tr_id}`)
+    .set('Authorization', `Bearer ${user1.token}`)
+    .send({
+      description: 'Updated',
+      amount: 17,
+    });
+  expect(res.status).toBe(200);
+  expect(res.body[0].description).toBe('Updated');
+  expect(res.body[0].amount).toBe('17.00');
+  console.log(res.body);
+});
+
+it('Should delete a transaction successfully', async () => {
+  const response = await app.db('transactions').insert({
+    description: 'VTNC',
+    type: 'O',
+    date: new Date(),
+    amount: 255,
+    acc_id: account1.id,
+  }, ['*']);
+
+  const res = await request(app).delete(`${MAIN_ROUTE}/${response[0].tr_id}`)
+    .set('Authorization', `Bearer ${user1.token}`);
+  expect(res.status).toBe(204);
+});
+
+it('Should not be able to manipulate other-user-transaction', async () => {
+  const response = await app.db('transactions').insert([
+    {
+      description: 'T1', type: 'I', date: new Date(), amount: 1050, acc_id: account1.id,
+    },
+  ], ['*']);
+  console.log(response[0]);
+
+  const res = await request(app).get(`${MAIN_ROUTE}/${response[0].tr_id}`)
+    .set('Authorization', `Bearer ${user2.token}`);
+  expect(res.status).toBe(403);
+  expect(res.body.message).toBe('not authorized');
 });
