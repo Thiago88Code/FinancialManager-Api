@@ -16,7 +16,7 @@ beforeAll(async () => {
   const users = await app.db('users').insert([
     { name: 'user 1', email: 'user1@example.com', password: '123' },
     { name: 'user 2', email: 'user2@example.com', password: '456' },
-  ], '*'); 
+  ], '*');
   [user1, user2] = users;
   user1.token = jwt.encode(user1, 'secret');
   user2.token = jwt.encode(user2, 'secret');
