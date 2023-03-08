@@ -23,6 +23,7 @@ app.use((req, res) => {
 // Middleware in charge of throwing the error according to Validaterror object
 app.use((err, req, res, next) => {
   const { name, message, stack } = err;
+  // console.log(err);
   if (name === 'validationError') res.status(400).json({ error: message });
   else res.status(500).json({ name, message, stack });
   next(err);

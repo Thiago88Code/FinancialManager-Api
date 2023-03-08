@@ -7,7 +7,7 @@ let user2;
 
 const MAIN_ROUTE = '/v1/accounts/';
 
-beforeEach(async () => {
+beforeAll(async () => {
   const response = await app.services.user.save({ name: 'user account', email: Date.now(), password: 'qqcoisa' });
   // Destructuring the response.body to access the id
   user = { ...response[0] };
@@ -25,6 +25,8 @@ it('Should create an account', async () => {
 });
 
 it('An user just could be access to own accounts', async () => {
+  await app.db('transactions').del();
+  await app.db('accounts').del();
   await app.db('accounts').insert([
     { name: '#acc 1', user_id: user.id },
     { name: '#acc 2', user_id: user2.id },

@@ -25,6 +25,7 @@ module.exports = (app) => {
     try {
       const result = await app.services.transaction.save(req.body);
       res.status(201).json(result);
+      // console.log(result);
     } catch (err) {
       next(err);
     }

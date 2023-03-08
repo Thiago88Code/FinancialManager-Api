@@ -15,6 +15,4 @@ exports.up = (knex) => knex.schema.createTable('accounts', (table) => {
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.down = function (knex) {
-  return knex.schema.dropTableIfExists('accounts');
-};
+exports.down = (knex) => knex.schema.dropTableIfExists('accounts');

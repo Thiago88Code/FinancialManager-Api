@@ -1,3 +1,4 @@
+/* eslint-disable no-multi-assign */
 const request = require('supertest');
 const jwt = require('jwt-simple');
 const app = require('../src/server');
@@ -71,7 +72,7 @@ it('Should get a specific transaction by id', async () => {
     .set('Authorization', `Bearer ${user1.token}`);
   expect(res.status).toBe(200);
   expect(res.body.tr_id).toBe(response[0].tr_id);
-  console.log(res.body);
+  // console.log(res.body);
 });
 
 it('Should update a transaction successfully', async () => {
@@ -83,7 +84,7 @@ it('Should update a transaction successfully', async () => {
     acc_id: account1.id,
   }, ['*']);
 
-  console.log(response[0].tr_id);
+  // console.log(response[0].tr_id);
   const res = await request(app).put(`${MAIN_ROUTE}/${response[0].tr_id}`)
     .set('Authorization', `Bearer ${user1.token}`)
     .send({
@@ -93,7 +94,7 @@ it('Should update a transaction successfully', async () => {
   expect(res.status).toBe(200);
   expect(res.body[0].description).toBe('Updated');
   expect(res.body[0].amount).toBe('17.00');
-  console.log(res.body);
+  // console.log(res.body);
 });
 
 it('Should delete a transaction successfully', async () => {
@@ -116,10 +117,88 @@ it('Should not be able to manipulate other-user-transaction', async () => {
       description: 'T1', type: 'I', date: new Date(), amount: 1050, acc_id: account1.id,
     },
   ], ['*']);
-  console.log(response[0]);
+  // console.log(response[0]);
 
   const res = await request(app).get(`${MAIN_ROUTE}/${response[0].tr_id}`)
     .set('Authorization', `Bearer ${user2.token}`);
   expect(res.status).toBe(403);
   expect(res.body.message).toBe('not authorized');
+});
+
+it('Type of transactions = "I" should have a positive amount', async () => {
+  const res = await request(app).post(MAIN_ROUTE)
+    .set('Authorization', `Bearer ${user2.token}`)
+    .send({
+      description: 'T3',
+      type: 'I',
+      date: new Date(),
+      amount: -255,
+      acc_id: account1.id,
+    });
+  expect(res.status).toBe(201);
+  expect(res.body[0].amount).toBe('255.00');
+});
+
+it('Type of transactions = "O" should have a negative amount', async () => {
+  const res = await request(app).post(MAIN_ROUTE)
+    .set('Authorization', `Bearer ${user1.token}`)
+    .send({
+      description: 'T3',
+      type: 'O',
+      date: new Date(),
+      amount: 255,
+      acc_id: account1.id,
+    });
+  expect(res.status).toBe(201);
+  expect(res.body[0].amount).toBe('-255.00');
+});
+
+describe('Should not be possible insert an ivalid transaction', () => {
+  const testTemplate = async (newBody, errorMessage) => {
+    const body = {
+      description: 'T3',
+      type: 'O',
+      date: new Date(),
+      amount: 255,
+      acc_id: account2.id,
+    };
+    const res = await request(app).post(MAIN_ROUTE)
+      .set('Authorization', `Bearer ${user2.token}`)
+      .send({ ...body, ...newBody });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe(errorMessage);
+  };
+  it('Should not be possible insert a transaction without a description', () => {
+    testTemplate({ description: null }, 'Description is required');
+  });
+  it('Should not be possible insert a transaction without a type', () => {
+    testTemplate({ type: null }, 'Type is required');
+  });
+  it('Should not be possible insert a transaction without a date', () => {
+    testTemplate({ date: null }, 'Date is required');
+  });
+  it('Should not be possible insert a transaction without a amount', () => {
+    testTemplate({ amount: null }, 'Amount is required');
+  });
+  it('Should not be possible insert a transaction without a acc_id', () => {
+    testTemplate({ acc_id: null }, 'Acc_id is required');
+  });
+  it('Should not be possible insert a transaction with an invalid type', () => {
+    testTemplate({ type: 'A' }, 'Invalid type');
+  });
+});
+
+it('Should not be possible delete an account that contains transactions', async () => {
+  const response = await app.db('transactions').insert({
+    description: 'to delete',
+    type: 'O',
+    date: new Date(),
+    amount: 255,
+    acc_id: account1.id,
+  }, ['*']);
+  // console.log(response[0].acc_id);
+  const res = await request(app).delete(`/v1/accounts/${response[0].acc_id}`)
+    .set('Authorization', `Bearer ${user1.token}`);
+  expect(res.status).toBe(400);
+  expect(res.body.error).toBe('Account contains transactions');
 });
