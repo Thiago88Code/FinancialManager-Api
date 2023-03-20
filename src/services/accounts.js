@@ -1,10 +1,11 @@
+/* eslint-disable max-len */
 /* eslint-disable no-trailing-spaces */
 const ValidationError = require('../errors/validationErrors');
 
 /* eslint-disable consistent-return */
 // Queries
 module.exports = (app) => {
-  const findAll = (filter = {}) => app.db('accounts').where(filter).select(['id', 'name']);
+  const findAll = (filter = {}) => app.db('accounts').where(filter).select('*');
   const find = (filter = {}) => app.db('accounts').where(filter).first();
   
   const save = async (account) => {

@@ -9,12 +9,12 @@ module.exports = (app) => {
 
   // DANGER! findOne is insecure because show password return
   const findOne = (filter = {}) => app.db('users').where(filter).first();
-
+  const find = (filter = {}) => app.db('users').where(filter).select();
   const passwordHash = (pass) => {
     const salt = bcrypt.genSaltSync(10);
     return bcrypt.hashSync(pass, salt);
   };
-
+  
   const save = async (user) => {
     if (!user.name || user.name == null) throw new ValidationError('"Name" attribute is mandatory');
     if (!user.email) throw new ValidationError('"Email" attribute is mandatory');
@@ -25,5 +25,7 @@ module.exports = (app) => {
     user.password = passwordHash(user.password);
     return app.db('users').insert(user, ['id', 'name', 'email']);
   };
-  return { findAll, save, findOne };
+  return {
+    findAll, save, findOne, find, 
+  };
 };

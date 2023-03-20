@@ -9,6 +9,11 @@ module.exports = (app) => {
     .andWhere('accounts.user_id', '=', userId)
     .select('*');
 
+  const find2 = (userId, transaction) => app.db('transactions')
+    .join('accounts', 'accounts.id', transaction.acc_id)
+    .where('accounts.user_id', '=', userId)
+    .select('*');
+
   const findOne = (filter = {}) => app.db('transactions').where(filter).first();
   const save = (transaction) => {
     if (!transaction.description) throw new ValidationError('Description is required');
@@ -31,6 +36,6 @@ module.exports = (app) => {
   const remove = (id) => app.db('transactions').where({ tr_id: id }).del();
 
   return {
-    find, save, findOne, update, remove,
+    find, save, findOne, update, remove, find2,
   };
 };

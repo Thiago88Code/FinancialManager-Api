@@ -6,7 +6,7 @@ module.exports = (app) => {
 
   router.param('id', async (req, res, next) => {
     const result = await app.services.transaction.find(req.user.id, { tr_id: req.params.id });
-
+    console.log(result);
     if (result.length > 0) next();
     else return res.status(403).json({ message: 'not authorized' });
   });
@@ -25,7 +25,6 @@ module.exports = (app) => {
     try {
       const result = await app.services.transaction.save(req.body);
       res.status(201).json(result);
-      // console.log(result);
     } catch (err) {
       next(err);
     }

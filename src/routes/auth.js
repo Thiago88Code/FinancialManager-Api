@@ -29,6 +29,7 @@ module.exports = (app) => {
   router.post('/signup', async (req, res, next) => {
     try {
       const result = await app.services.user.save(req.body);
+      console.log(result);
       res.status(201).json(result[0]);
     } catch (err) {
       next(err);

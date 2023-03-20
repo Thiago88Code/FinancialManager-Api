@@ -6,6 +6,7 @@ module.exports = (app) => {
 
   router.param('id', async (req, res, next) => {
     const result = await app.services.accounts.find({ id: req.params.id });
+    console.log(result);
     if (result.user_id !== req.user.id) {
       return res.status(403).json({ message: 'not authorized' });
     } next();
@@ -14,10 +15,8 @@ module.exports = (app) => {
     try {
       // o passport cria o objeto user?
       const result = await app.services.accounts.save({ ...req.body, user_id: req.user.id });
-
       res.status(201).json(result);
     } catch (err) {
-      // console.log(err);
       next(err);
     }
   });
@@ -25,8 +24,9 @@ module.exports = (app) => {
   router.get('/', async (req, res, next) => {
     try {
       const result = await app.services.accounts.findAll({ user_id: req.user.id });
-
-      res.status(200).send(result);
+      if (result) {
+        res.status(200).send(result);
+      }
     } catch (err) {
       next(err);
     }
@@ -54,6 +54,7 @@ module.exports = (app) => {
     try {
       const result = await app.services.accounts.remove(req.params.id);
       res.status(200).json(result);
+      console.log(result);
     } catch (err) {
       next(err);
     }
