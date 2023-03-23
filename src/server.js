@@ -12,7 +12,7 @@ consign({ cwd: 'src', verbose: false })
   .then('./routes')
   .then('./config/router.js')
   .into(app);
-
+const x =9999
 app.get('/', (req, res) => {
   res.status(200).send();
 });
