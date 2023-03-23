@@ -6,6 +6,7 @@ const app = require('../src/server');
 
 const MAIN_ROUTE = '/v1/balance';
 const ROUTE_TRANSACTION = '/v1/transactions';
+const ROUTE_TRANSFER = '/v1/transfers';
 let user;
 let user2;
 let account;
@@ -129,7 +130,7 @@ describe('When calculate the balance...', () => {
     expect(response.body[1].sum).toBe('10.00');
   });
 
-  it.skip('Should not return a balance from a diferent user-account', async () => {
+  it('Should not return a balance from a diferent user-account', async () => {
     const res = await request(app).post(ROUTE_TRANSACTION)
       .set('Authorization', `Bearer ${user2.token}`)
       .send({
@@ -137,18 +138,18 @@ describe('When calculate the balance...', () => {
         type: 'I',
         date: new Date(),
         status: true,
-        amount: 90,
+        amount: 70,
         acc_id: account.id,
       });
     console.log(res.body);
     const response = await request(app).get(MAIN_ROUTE)
       .set('Authorization', `Bearer ${user.token}`);
-    expect(response.status).toBe(500);
+    expect(response.status).toBe(200);
     console.log(response.body);
     expect(response.body[0].id).toBe(account.id);
-    expect(response.body[0].sum).toBe('100.00');
+    expect(response.body[0].sum).toBe('170.00');
     expect(response.body[1].id).toBe(account2.id);
-    expect(response.body[1].sum).toBe('100.00');
+    expect(response.body[1].sum).toBe('10.00');
   });
 
   it('Should consider transaction from the past', async () => {
@@ -156,10 +157,10 @@ describe('When calculate the balance...', () => {
       .set('Authorization', `Bearer ${user.token}`)
       .send({
         description: '1',
-        type: 'I',
+        type: 'O',
         date: moment().subtract({ days: 3 }),
         status: true,
-        amount: 100,
+        amount: 70,
         acc_id: account.id,
       });
     console.log(res.body);
@@ -168,7 +169,7 @@ describe('When calculate the balance...', () => {
     expect(response.status).toBe(200);
     console.log(response.body[0]);
     expect(response.body[0].id).toBe(account.id);
-    expect(response.body[0].sum).toBe('200.00');
+    expect(response.body[0].sum).toBe('100.00');
   });
   it('Should not consider future transaction', async () => {
     const res = await request(app).post(ROUTE_TRANSACTION)
@@ -187,6 +188,29 @@ describe('When calculate the balance...', () => {
     expect(response.status).toBe(200);
     console.log(response.body[0]);
     expect(response.body[0].id).toBe(account.id);
-    expect(response.body[0].sum).toBe('200.00');
+    expect(response.body[0].sum).toBe('100.00');
+  });
+  it('Should consider transfers', async () => {
+    const res = await request(app).post(ROUTE_TRANSFER)
+      .set('Authorization', `Bearer ${user.token}`)
+      .send({
+        description: 'New Transfer',
+        date: new Date(),
+        amount: 110,
+        from_acc_id: account.id,
+        to_acc_id: account2.id,
+        user_id: user.id,
+      });
+    expect(res.status).toBe(201);
+    console.log(res.body);
+    const response = await request(app).get(MAIN_ROUTE)
+      .set('Authorization', `Bearer ${user.token}`);
+    expect(response.status).toBe(200);
+    console.log(response.body);
+    console.log(response.body[0]);
+    expect(response.body[0].id).toBe(account.id);
+    expect(response.body[0].sum).toBe('-10.00');
+    expect(response.body[1].id).toBe(account2.id);
+    expect(response.body[1].sum).toBe('120.00');
   });
 });

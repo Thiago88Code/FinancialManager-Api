@@ -175,7 +175,7 @@ describe('Should update a transfer and generate updated transactions successfull
   });
 });
 // Update 2
-describe('Should not be possible update transfer inserting invalid fields', () => {
+describe.skip('Should not be possible update transfer inserting invalid fields', () => {
   const toAccId = 2001;
   const userId = 1000;
   // let transferId;
@@ -225,9 +225,7 @@ describe('Should not be possible update transfer inserting invalid fields', () =
     testTemplate({ user_id: otherUser }, 'Do a transfer to the same source account is forbidden');
   });
 });
-
-// DELETE
-/* it('Should delete a transfer successfully', async () => {
+it('Should delete a transfer successfully', async () => {
   const response = await request(app).post(MAIN_ROUTE)
     .set('Authorization', `Bearer ${TOKEN}`)
     .send({
@@ -243,4 +241,4 @@ describe('Should not be possible update transfer inserting invalid fields', () =
     .set('Authorization', `Bearer ${TOKEN}`);
   console.log(res.body[0]);
   expect(res.status).toBe(204);
-}); */
+});

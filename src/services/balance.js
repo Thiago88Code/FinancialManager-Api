@@ -2,13 +2,11 @@
 
 module.exports = (app) => {
   const getBalance = (userId) => app.db('transactions')
-    .where({ status: true })
-    .join('accounts', 'accounts.id', '=', 'acc_id')
-    .where({ user_id: userId })
-    .where('date', '<=', new Date())
-    // .orWhere('date', '=', new Date())
-    .select('accounts.id')
     .sum('amount')
+    .join('accounts', 'accounts.id', '=', 'acc_id')
+    .where({ user_id: userId, status: true })
+    .where('date', '<=', new Date())
+    .select('accounts.id')
     .groupBy('accounts.id')
     .orderBy('accounts.id');
   return { getBalance };

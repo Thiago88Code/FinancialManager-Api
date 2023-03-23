@@ -30,6 +30,7 @@ module.exports = (app) => {
       date: transfer.date,
       amount: transfer.amount * -1,
       acc_id: transfer.from_acc_id,
+      status: true,
       transfer_id: result[0].id,
 
     }, {
@@ -39,6 +40,7 @@ module.exports = (app) => {
       date: transfer.date,
       amount: transfer.amount,
       acc_id: transfer.to_acc_id,
+      status: true,
       transfer_id: result[0].id,
 
     }];
@@ -60,6 +62,7 @@ module.exports = (app) => {
       date: transfer.date,
       amount: transfer.amount * -1,
       acc_id: transfer.from_acc_id,
+      status: true,
       transfer_id: result[0].id,
 
     }, {
@@ -69,6 +72,7 @@ module.exports = (app) => {
       date: transfer.date,
       amount: transfer.amount,
       acc_id: transfer.to_acc_id,
+      status: true,
       transfer_id: result[0].id,
 
     }];

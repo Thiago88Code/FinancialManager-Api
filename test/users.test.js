@@ -9,8 +9,7 @@ let user;
 const MAIN_ROUTE = '/v1/users';
 
 beforeAll(async () => {
-  const response = await app.services.user.save({ name: 'user account', email: Date.now(), password: 'qqcoisa' });
-  // Destructuring the response.body to access the id
+  const response = await app.services.user.save({ name: 'user account', email: `${Date.now()}@gmail.com`, password: 'password' });
   user = { ...response[0] };
   user.token = jwt.encode(user, 'secret');
 });
@@ -27,26 +26,24 @@ it('Should get all users', async () => {
 
 // Admin
 it('Should create an user', async () => {
-  await request(app).post(MAIN_ROUTE).send({ name: 'Janaina', email: Date.now(), password: 'k' })
+  await request(app).post(MAIN_ROUTE).send({ name: 'Janaina', email: `${Date.now()}@gmail.com`, password: 'k' })
     .set('Authorization', `Bearer ${user.token}`)
     .then((response) => {
       expect(response.status).toBe(201);
-      // console.log(response.body);
     });
 });
 
 it('Should create an encrypted password', async () => {
-  const response = await request(app).post(MAIN_ROUTE).send({ name: 'Janaina', email: Date.now(), password: 'k' })
+  const response = await request(app).post(MAIN_ROUTE).send({ name: 'Janaina', email: `${Date.now()}@gmail.com`, password: 'k' })
     .set('Authorization', `Bearer ${user.token}`);
   expect(response.status).toBe(201);
   const { id } = response.body;
   const userDB = await app.services.user.findOne({ id });
   expect(userDB.password).not.toBe(undefined);
-  // console.log(userDB);
 });
 
 it('Should not be able to create an null user', async () => {
-  await request(app).post(MAIN_ROUTE).send({ name: null, email: Date.now(), password: 'k' })
+  await request(app).post(MAIN_ROUTE).send({ name: null, email: `${Date.now()}@gmail.com`, password: 'k' })
     .set('Authorization', `Bearer ${user.token}`)
     .then((response) => {
       expect(response.status).toBe(400);
