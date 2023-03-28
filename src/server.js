@@ -1,9 +1,25 @@
 const app = require('express')();
 const consign = require('consign');
 const knex = require('knex');
+const winston = require('winston');
+const { v4: uuidv4 } = require('uuid');
+
 const knexfile = require('../knexfile');
-// TODO
-app.db = knex(knexfile.test);
+
+app.db = knex(knexfile[process.env.NODE_ENV]);
+
+// setting to hide complete 500 error messages from the user
+app.log = winston.createLogger({
+  level: 'debug',
+  transports: [
+    new winston.transports.Console({ format: winston.format.json({ space: 1 }) }),
+    new winston.transports.File({
+      filename: 'logs/error.log',
+      level: 'warn',
+      format: winston.format.combine(winston.format.timestamp(), winston.format.json({ space: 1 })),
+    }),
+  ],
+});
 
 consign({ cwd: 'src', verbose: false })
   .include('./config/passport.js')
@@ -23,20 +39,17 @@ app.use((req, res) => {
 // Middleware in charge of throwing the error according to Validaterror object
 app.use((err, req, res, next) => {
   const { name, message, stack } = err;
-  // console.log(err);
-  if (name === 'validationError') res.status(400).json({ error: message });
-  else res.status(500).json({ name, message, stack });
-  next(err);
+  if (name === 'validationError') res.status(400).json({ error: message, stack });
+  else {
+    const id = uuidv4();
+    app.log.error({
+      id, name, message, stack,
+    });
+    res.status(500).json({ id, error: 'Internal server error' });
+  }
+  next();
 });
 
-// logger
-/*
-app.db.on('query', (query) => {
-  console.log({ sql: query.sql, bindings: query.bindings ? query.bindings.join(',') : '' });
-})
-  .on('query-response', (response) => console.log(response))
-  .on('error', (error) => console.log(error));
-*/
 // app.listen(3001, () => console.log('Listening at'));
 
 module.exports = app;

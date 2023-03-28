@@ -1,15 +1,7 @@
 const ValidationError = require('../errors/validationErrors');
 
-// Queries
-
 module.exports = (app) => {
-  const findAll = (filter = {}) => app.db('transfers').where(filter).select('*');
-  const find = (filter = {}) => app.db('transfers').where(filter).first();
-  const remove = async (id) => {
-    await app.db('transactions').where({ transfer_id: id }).del();
-    return app.db('transfers').where({ id }).del();
-  };
-  const validate = async (transfer) => {
+  const validate = (transfer) => {
     if (!transfer.description) throw new ValidationError('Transfer description is mandatory');
     if (!transfer.date) throw new ValidationError('Transfer date is mandatory');
     if (!transfer.amount) throw new ValidationError('Transfer amount is mandatory');
@@ -19,10 +11,16 @@ module.exports = (app) => {
     if (transfer.from_acc_id === transfer.to_acc_id) throw new ValidationError('Do a transfer to the same source account is forbidden');
   };
 
+  const findAll = (filter = {}) => app.db('transfers').where(filter).select('*');
+  const find = (filter = {}) => app.db('transfers').where(filter).first();
+  const remove = async (id) => {
+    await app.db('transactions').where({ transfer_id: id }).del();
+    return app.db('transfers').where({ id }).del();
+  };
+
   const save = async (transfer) => {
-    await validate(transfer);
+    validate(transfer);
     const result = await app.db('transfers').insert(transfer, '*');
-    console.log(result[0].id);
     const transactions = [{
 
       description: `Transfer to ${transfer.to_acc_id}`,
@@ -50,7 +48,7 @@ module.exports = (app) => {
   };
 
   const update = async (id, transfer) => {
-    await validate(transfer);
+    validate(transfer);
     const result = await app.db('transfers')
       .where({ id })
       .update(transfer, '*');

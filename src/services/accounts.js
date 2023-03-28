@@ -3,7 +3,7 @@
 const ValidationError = require('../errors/validationErrors');
 
 /* eslint-disable consistent-return */
-// Queries
+
 module.exports = (app) => {
   const findAll = (filter = {}) => app.db('accounts').where(filter).select('*');
   const find = (filter = {}) => app.db('accounts').where(filter).first();
@@ -20,7 +20,7 @@ module.exports = (app) => {
     .update(account, '*');
      
   const remove = async (id) => {
-    const transaction = await app.services.transaction.findOne({ acc_id: id });
+    const transaction = await app.services.transaction.find({ acc_id: id });
     if (transaction) throw new ValidationError('Account contains transactions');
     return app.db('accounts')
       .where({ id })

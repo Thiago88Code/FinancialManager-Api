@@ -1,4 +1,3 @@
-/* eslint-disable object-curly-newline */
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }

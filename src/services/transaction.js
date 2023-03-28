@@ -3,18 +3,13 @@ const ValidationError = require('../errors/validationErrors');
 // Queries
 
 module.exports = (app) => {
-  const find = (userId, filter = {}) => app.db('transactions')
+  const validateUser = (userId, filter = {}) => app.db('transactions')
     .join('accounts', 'accounts.id', 'acc_id')
     .where(filter)
     .andWhere('accounts.user_id', '=', userId)
     .select('*');
 
-  const find2 = (userId, transaction) => app.db('transactions')
-    .join('accounts', 'accounts.id', transaction.acc_id)
-    .where('accounts.user_id', '=', userId)
-    .select('*');
-
-  const findOne = (filter = {}) => app.db('transactions').where(filter).first();
+  const find = (filter = {}) => app.db('transactions').where(filter).first();
   const save = (transaction) => {
     if (!transaction.description) throw new ValidationError('Description is required');
     if (!transaction.type) throw new ValidationError('Type is required');
@@ -36,6 +31,6 @@ module.exports = (app) => {
   const remove = (id) => app.db('transactions').where({ tr_id: id }).del();
 
   return {
-    find, save, findOne, update, remove, find2,
+    validateUser, save, find, update, remove,
   };
 };

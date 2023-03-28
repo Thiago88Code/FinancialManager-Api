@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 const express = require('express');
 
 module.exports = (app) => {

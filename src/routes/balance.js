@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 const express = require('express');
 
 module.exports = (app) => {
@@ -7,7 +6,6 @@ module.exports = (app) => {
   router.get('/', async (req, res, next) => {
     try {
       const result = await app.services.balance.getBalance(req.user.id);
-      console.log(req.user.id);
       res.status(200).json(result);
     } catch (err) {
       next(err);

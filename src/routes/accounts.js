@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 const express = require('express');
 
 module.exports = (app) => {
@@ -6,14 +5,14 @@ module.exports = (app) => {
 
   router.param('id', async (req, res, next) => {
     const result = await app.services.accounts.find({ id: req.params.id });
-    console.log(result);
     if (result.user_id !== req.user.id) {
       return res.status(403).json({ message: 'not authorized' });
-    } next();
+    }
+    next();
   });
   router.post('/', async (req, res, next) => {
     try {
-      // o passport cria o objeto user?
+      // O passport cria o objeto user?
       const result = await app.services.accounts.save({ ...req.body, user_id: req.user.id });
       res.status(201).json(result);
     } catch (err) {
@@ -54,7 +53,6 @@ module.exports = (app) => {
     try {
       const result = await app.services.accounts.remove(req.params.id);
       res.status(200).json(result);
-      console.log(result);
     } catch (err) {
       next(err);
     }

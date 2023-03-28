@@ -23,6 +23,6 @@ it('Should not be able signin with wrong password', async () => {
   await app.services.user.save(body);
   const response = await request(app).post('/auth/signin')
     .send({ name: 'teste de senha', email, password: 'senha errada' });
-  expect(response.status).toBe(500);
+  expect(response.status).toBe(404);
   expect(response.body).not.toHaveProperty('token');
 });

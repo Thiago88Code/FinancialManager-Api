@@ -1,5 +1,3 @@
-/* eslint-disable no-unreachable */
-/* eslint-disable no-undef */
 const express = require('express');
 const jwt = require('jwt-simple');
 const bcrypt = require('bcrypt');
@@ -16,11 +14,10 @@ module.exports = (app) => {
           const payload = {
             id: result.id,
             name: result.name,
-            email: result.email,
           };
           const token = jwt.encode(payload, secret);
           res.status(200).json({ token });
-        } else throw new ValidationError('Invalid password');
+        } else throw new ForbiddenError('Invalid password');
       }).catch((err) => {
         next(err);
       });
@@ -29,7 +26,6 @@ module.exports = (app) => {
   router.post('/signup', async (req, res, next) => {
     try {
       const result = await app.services.user.save(req.body);
-      console.log(result);
       res.status(201).json(result[0]);
     } catch (err) {
       next(err);

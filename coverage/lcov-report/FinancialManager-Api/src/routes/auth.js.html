@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.19% </span>
+                <span class="strong">80.95% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/21</span>
+                <span class='fraction'>17/21</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.19% </span>
+                <span class="strong">80.95% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/21</span>
+                <span class='fraction'>17/21</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -101,20 +101,17 @@
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a>
 <a name='L38'></a><a href='#L38'>38</a>
-<a name='L39'></a><a href='#L39'>39</a>
-<a name='L40'></a><a href='#L40'>40</a>
-<a name='L41'></a><a href='#L41'>41</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L39'></a><a href='#L39'>39</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -131,8 +128,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -141,13 +137,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* eslint-disable no-unreachable */
-/* eslint-disable no-undef */
-const express = require('express');
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = require('express');
 const jwt = require('jwt-simple');
 const bcrypt = require('bcrypt');
+const forbiddenError = require('../errors/forbiddenErrror');
 &nbsp;
 const secret = 'secret';
 &nbsp;
@@ -165,7 +160,7 @@ module.exports = (app) =&gt; {
           };
           const token = jwt.encode(payload, secret);
           res.status(200).json({ token });
-        } else throw new ValidationError('Invalid password');
+        } else throw forbiddenError('Invalid password');
       }).catch((err) =&gt; {
         next(err);
       });
@@ -174,7 +169,6 @@ module.exports = (app) =&gt; {
   router.post('/signup', <span class="fstat-no" title="function not covered" >as</span>ync (req, res, next) =&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const result = <span class="cstat-no" title="statement not covered" >await app.services.user.save(req.body);</span>
-<span class="cstat-no" title="statement not covered" >      console.log(result);</span>
 <span class="cstat-no" title="statement not covered" >      res.status(201).json(result[0]);</span>
     } catch (err) {
 <span class="cstat-no" title="statement not covered" >      next(err);</span>
@@ -190,7 +184,7 @@ module.exports = (app) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-23T11:29:30.662Z
+                at 2023-03-28T18:10:01.660Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

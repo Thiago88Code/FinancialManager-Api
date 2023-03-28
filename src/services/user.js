@@ -2,7 +2,6 @@
 const bcrypt = require('bcrypt');
 const ValidationError = require('../errors/validationErrors');
 
-// Queries
 module.exports = (app) => {
   const findAll = () => app.db('users').select(['id', 'name', 'email']);
   // eslint-disable-next-line consistent-return

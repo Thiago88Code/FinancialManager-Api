@@ -1,8 +1,7 @@
-const supertest = require('supertest');
+const request = require('supertest');
+const app = require('../src/server');
 
-const request = supertest('http://localhost:3001');
-
-test.skip('Should respond at 3001 port', async () => {
-  const response = await request.get('/');
-  expect(response.status).toBe(200);
+it('Should create an account', async () => {
+  const response = await request(app).post('/').send({ name: '#acc 1' });
+  expect(response.status).toBe(404);
 });

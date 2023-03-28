@@ -1,0 +1,181 @@
+{
+ "id": "bd1f6b70-3fa8-45c4-83f4-3c3c1994b3ce",
+ "level": "error",
+ "message": "ValidationError is not defined",
+ "name": "ReferenceError",
+ "stack": "ReferenceError: ValidationError is not defined\n    at C:\\Users\\thiag\\OneDrive\\Documentos\\GitHub\\FinancialManager-Api\\src\\routes\\auth.js:23:16\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)",
+ "timestamp": "2023-03-28T17:33:20.433Z"
+}
+{
+ "id": "a441cd0d-8c57-4f87-bf2c-beaa77d66491",
+ "level": "error",
+ "message": "Name of account is mandatory",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:55.219Z"
+}
+{
+ "id": "d4ebf813-e62f-4b55-a353-166a5165cb12",
+ "level": "error",
+ "message": "Double-account-name",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:55.254Z"
+}
+{
+ "id": "96c1739d-f91f-418f-9b4b-ca964af3a224",
+ "level": "error",
+ "message": "\"Name\" attribute is mandatory",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:56.702Z"
+}
+{
+ "id": "e1d21435-79bb-4cc8-ab52-e3e7e233a7d4",
+ "level": "error",
+ "message": "\"Name\" attribute is mandatory",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:56.711Z"
+}
+{
+ "id": "0bdea338-d72c-499b-88d6-b49336ef8912",
+ "level": "error",
+ "message": "\"Email\" attribute is mandatory",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:56.721Z"
+}
+{
+ "id": "02cc0268-b9c9-4131-b79c-7efead59e29c",
+ "level": "error",
+ "message": "\"Password\" attribute is mandatory",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:56.729Z"
+}
+{
+ "id": "c4c33624-07b3-408f-908b-a6bac7093570",
+ "level": "error",
+ "message": "This \"Email\" already exists",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:56.812Z"
+}
+{
+ "id": "6ef13e2d-eb91-4d0e-b123-ec06b1dab180",
+ "level": "error",
+ "message": "Account contains transactions",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:57.720Z"
+}
+{
+ "id": "78cad1bc-8e3d-4a75-af44-4e38d16d41ee",
+ "level": "error",
+ "message": "Description is required",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:58.366Z"
+}
+{
+ "id": "502bb537-1b85-4ac9-aa6a-04a4ae8e2ec8",
+ "level": "error",
+ "message": "Type is required",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:58.760Z"
+}
+{
+ "id": "09d214c6-6df3-4ad6-8db9-0a705d9c5500",
+ "level": "error",
+ "message": "Date is required",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:58.768Z"
+}
+{
+ "id": "a2f4a7f6-74b6-4993-a070-0ac8243de183",
+ "level": "error",
+ "message": "Amount is required",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:58.779Z"
+}
+{
+ "id": "023b4ada-68e6-41bb-a2ad-e9457c3abf8b",
+ "level": "error",
+ "message": "Acc_id is required",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:58.791Z"
+}
+{
+ "id": "ec5bac6d-8e7a-4097-8c4e-5485d669428b",
+ "level": "error",
+ "message": "Invalid type",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:58.829Z"
+}
+{
+ "id": "4fb65da5-2180-43af-9184-67d91b84530a",
+ "level": "error",
+ "message": "Transfer description is mandatory",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:59.429Z"
+}
+{
+ "id": "0a7bfd4c-bfb5-4e65-a344-e4f4dfafcc71",
+ "level": "error",
+ "message": "Transfer date is mandatory",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:59.465Z"
+}
+{
+ "id": "acb0e00f-171f-49bf-a6e8-3ad995880b04",
+ "level": "error",
+ "message": "Transfer amount is mandatory",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:59.483Z"
+}
+{
+ "id": "b9fec51f-8a19-4349-a03d-495b87679785",
+ "level": "error",
+ "message": "Transfer source account is mandatory",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:59.509Z"
+}
+{
+ "id": "c5a05b3a-4d09-4c44-a028-be806214783d",
+ "level": "error",
+ "message": "Transfer destiny account is mandatory",
+ "name": "validationError",
+ "timestamp": "2023-03-28T17:45:59.523Z"
+}
+{
+ "id": "1dd0df53-9f95-441e-92ff-09a39ba57ea8",
+ "level": "error",
+ "message": "ForbiddenError is not defined",
+ "name": "ReferenceError",
+ "stack": "ReferenceError: ForbiddenError is not defined\n    at C:\\Users\\thiag\\OneDrive\\Documentos\\GitHub\\FinancialManager-Api\\src\\routes\\auth.js:23:16\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)",
+ "timestamp": "2023-03-28T17:50:08.056Z"
+}
+{
+ "id": "c2327d31-395f-4ff3-a965-c3b31616fb11",
+ "level": "error",
+ "message": "ForbiddenError is not defined",
+ "name": "ReferenceError",
+ "stack": "ReferenceError: ForbiddenError is not defined\n    at C:\\Users\\thiag\\OneDrive\\Documentos\\GitHub\\FinancialManager-Api\\src\\routes\\auth.js:23:16\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)",
+ "timestamp": "2023-03-28T17:50:56.400Z"
+}
+{
+ "id": "de45daf3-81ca-4d4d-96f0-102be7d05e3f",
+ "level": "error",
+ "message": "ForbiddenError is not defined",
+ "name": "ReferenceError",
+ "stack": "ReferenceError: ForbiddenError is not defined\n    at C:\\Users\\thiag\\OneDrive\\Documentos\\GitHub\\FinancialManager-Api\\src\\routes\\auth.js:23:16\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)",
+ "timestamp": "2023-03-28T17:52:40.348Z"
+}
+{
+ "id": "81d61a0a-dc2f-444b-a2f3-9f55e7697291",
+ "level": "error",
+ "message": "ForbiddenError is not defined",
+ "name": "ReferenceError",
+ "stack": "ReferenceError: ForbiddenError is not defined\n    at C:\\Users\\thiag\\OneDrive\\Documentos\\GitHub\\FinancialManager-Api\\src\\routes\\auth.js:23:16\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)",
+ "timestamp": "2023-03-28T17:52:50.504Z"
+}
+{
+ "id": "4b363c67-77f5-4386-a2c5-a89f36dd9687",
+ "level": "error",
+ "message": "ForbiddenError is not defined",
+ "name": "ReferenceError",
+ "stack": "ReferenceError: ForbiddenError is not defined\n    at C:\\Users\\thiag\\OneDrive\\Documentos\\GitHub\\FinancialManager-Api\\src\\routes\\auth.js:23:16\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)",
+ "timestamp": "2023-03-28T17:59:41.886Z"
+}

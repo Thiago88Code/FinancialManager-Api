@@ -9,11 +9,9 @@ const MAIN_ROUTE = '/v1/accounts/';
 
 beforeAll(async () => {
   const response = await app.services.user.save({ name: 'user account', email: Date.now(), password: 'qqcoisa' });
-  // Destructuring the response.body to access the id
   user = { ...response[0] };
   user.token = jwt.encode(user, 'secret');
   const response2 = await app.services.user.save({ name: 'user account 2', email: Date.now(), password: 'qqcoisa' });
-  // Destructuring the response.body to access the id
   user2 = { ...response2[0] };
 });
 
@@ -25,8 +23,6 @@ it('Should create an account', async () => {
 });
 
 it('An user just could be access to own accounts', async () => {
-  /* await app.db('transactions').del();
-  await app.db('accounts').del(); */
   await app.db('accounts').insert([
     { name: '#acc 1/2', user_id: user.id },
     { name: '#acc 2', user_id: user2.id },
@@ -35,8 +31,6 @@ it('An user just could be access to own accounts', async () => {
   const res = await request(app).get(MAIN_ROUTE)
     .set('Authorization', `Bearer ${user.token}`);
   expect(res.status).toBe(200);
-  console.log(res.body);
-  // expect(res.body.length).toBe(1);
 });
 
 it('Should not to be possible create an account without a name', async () => {
@@ -44,7 +38,6 @@ it('Should not to be possible create an account without a name', async () => {
     .send({})
     .set('Authorization', `Bearer ${user.token}`);
   expect(response.status).toBe(400);
-  // console.log(response.body.error);
 });
 
 it('Should get an account by id', async () => {
@@ -52,7 +45,6 @@ it('Should get an account by id', async () => {
   const res = await request(app).get(`${MAIN_ROUTE}/${response[0].id}`)
     .set('Authorization', `Bearer ${user.token}`);
   expect(res.status).toBe(200);
-  // console.log(response.body);
 });
 
 it('Should not be possible create a double-account-name to the same user', async () => {
@@ -77,7 +69,6 @@ it('Should delete an account', async () => {
   const response = await app.services.accounts.save({ name: '#acc delete', user_id: user.id });
   const res = await request(app).delete(`${MAIN_ROUTE}/${response[0].id}`)
     .set('Authorization', `Bearer ${user.token}`);
-  console.log(res.body);
   expect(res.status).toBe(200);
 });
 

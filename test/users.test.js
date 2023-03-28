@@ -20,11 +20,9 @@ it('Should get all users', async () => {
     .then((response) => {
       expect(response.status).toBe(200);
       expect(response.body).not.toHaveProperty('password');
-      // console.log(response.body);
     });
 });
 
-// Admin
 it('Should create an user', async () => {
   await request(app).post(MAIN_ROUTE).send({ name: 'Janaina', email: `${Date.now()}@gmail.com`, password: 'k' })
     .set('Authorization', `Bearer ${user.token}`)
@@ -48,7 +46,6 @@ it('Should not be able to create an null user', async () => {
     .then((response) => {
       expect(response.status).toBe(400);
       expect(response.body.error).toBe('"Name" attribute is mandatory');
-      // console.log(response.body.error);
     });
 });
 
@@ -58,7 +55,6 @@ it('Should not be able to create an user without "name"', async () => {
     .then((response) => {
       expect(response.status).toBe(400);
       expect(response.body.error).toBe('"Name" attribute is mandatory');
-      // console.log(response.body);
     });
 });
 
@@ -68,7 +64,6 @@ it('Should not be able to create an user without "email"', async () => {
     .then((response) => {
       expect(response.status).toBe(400);
       expect(response.body.error).toBe('"Email" attribute is mandatory');
-      // console.log(response.body);
     });
 });
 
@@ -77,7 +72,6 @@ it('Should not be able to create an user without "password"', async () => {
     .set('Authorization', `Bearer ${user.token}`);
   expect(response.status).toBe(400);
   expect(response.body.error).toBe('"Password" attribute is mandatory');
-  // console.log(response.body.error);
 });
 
 it('Should not be able to create an user with an existent "email"', async () => {
@@ -86,5 +80,4 @@ it('Should not be able to create an user with an existent "email"', async () => 
     .set('Authorization', `Bearer ${user.token}`);
   expect(response.status).toBe(400);
   expect(response.body.error).toBe('This "Email" already exists');
-  // console.log(response.body.error);
 });

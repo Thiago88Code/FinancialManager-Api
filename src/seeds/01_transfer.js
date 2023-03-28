@@ -1,10 +1,9 @@
-/* eslint-disable object-curly-newline */
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
 exports.seed = async (knex) => {
-  // Deletes ALL existing entries
+  // Deletes all existing entries
   await knex('transactions').del();
   await knex('transfers').del();
   await knex('accounts').del();

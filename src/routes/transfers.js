@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 const express = require('express');
 
 module.exports = (app) => {
@@ -33,7 +32,6 @@ module.exports = (app) => {
       if (req.user.id === req.body.user_id) {
         const response = await app.services.transfer.save(req.body);
         res.status(201).json(response);
-        // console.log(response);
       }
     } catch (err) {
       next(err);

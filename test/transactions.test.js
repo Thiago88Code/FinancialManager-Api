@@ -1,6 +1,6 @@
-/* eslint-disable no-multi-assign */
 const request = require('supertest');
 const jwt = require('jwt-simple');
+const moment = require('moment');
 const app = require('../src/server');
 
 let user;
@@ -15,20 +15,17 @@ beforeAll(async () => {
   // Destructuring the response.body to access the id
   user = { ...response[0] };
   user.token = jwt.encode(user, 'secret');
-  console.log(user);
 
   const response2 = await app.services.user.save({ name: 'user2', email: Date.now() * 5, password: 'qqcoisa' });
   // Destructuring the response.body to access the id
   user2 = { ...response2[0] };
   user2.token = jwt.encode(user2, 'secret');
-  console.log(user2);
 
   const accounts = await app.db('accounts').insert([
     { name: '#acc 1', user_id: user.id },
     { name: '#acc 2', user_id: user2.id },
   ], '*');
   [account, account2] = accounts;
-  console.log(accounts[0]);
 });
 
 it(' Should an account of an user return just they own transactions', async () => {
@@ -53,7 +50,7 @@ it('Should create a transaction successfully', async () => {
     .send({
       description: 'T3',
       type: 'O',
-      date: new Date(),
+      date: moment(),
       amount: 255,
       acc_id: account.id,
     });
@@ -69,12 +66,10 @@ it('Should get a specific transaction by id', async () => {
     acc_id: account.id,
   }, ['tr_id']);
 
-  // console.log(response[0].tr_id);
   const res = await request(app).get(`${MAIN_ROUTE}/${response[0].tr_id}`)
     .set('Authorization', `Bearer ${user.token}`);
   expect(res.status).toBe(200);
   expect(res.body.tr_id).toBe(response[0].tr_id);
-  // console.log(res.body);
 });
 
 it('Should update a transaction successfully', async () => {
@@ -86,7 +81,6 @@ it('Should update a transaction successfully', async () => {
     acc_id: account.id,
   }, ['*']);
 
-  // console.log(response[0].tr_id);
   const res = await request(app).put(`${MAIN_ROUTE}/${response[0].tr_id}`)
     .set('Authorization', `Bearer ${user.token}`)
     .send({
@@ -96,7 +90,6 @@ it('Should update a transaction successfully', async () => {
   expect(res.status).toBe(200);
   expect(res.body[0].description).toBe('Updated');
   expect(res.body[0].amount).toBe('17.00');
-  // console.log(res.body);
 });
 
 it('Should delete a transaction successfully', async () => {
@@ -119,7 +112,6 @@ it('Should not be able to manipulate other-user-transaction', async () => {
       description: 'T1', type: 'I', date: new Date(), amount: 1050, acc_id: account.id,
     },
   ], ['*']);
-    // console.log(response[0]);
 
   const res = await request(app).get(`${MAIN_ROUTE}/${response[0].tr_id}`)
     .set('Authorization', `Bearer ${user2.token}`);
@@ -163,8 +155,6 @@ it('Should not be possible delete an account that contains transactions', async 
     amount: 255,
     acc_id: account.id,
   }, ['*']);
-  console.log(response[0]);
-  console.log(response[0].acc_id);
   const res = await request(app).delete(`/v1/accounts/${response[0].acc_id}`)
     .set('Authorization', `Bearer ${user.token}`);
   expect(res.status).toBe(400);
