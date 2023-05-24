@@ -21,19 +21,20 @@ You must have installed:
 
 ## Getting Started:
 
-### 🔧 Installing all dependencies using npm
+### ⚙️ Installing all dependencies using npm
 
 ```
 npm install 
 ```
 
-### To run this api
+### ⚙️ To run this api
+
 ```
 npm start
 ```
 
 
-###  Database configuration
+### 🔧 Database configuration
 
 Create your Postgres database according to your preferences and fill on "knexfile.js" in the "prod"
 object.
@@ -56,7 +57,7 @@ object.
 ```
 
 
-### Database configuration in test environment
+###  🔧 Database configuration in test environment
 
 Create your Postgres database according to your preferences and fill on "knexfile.js" in the "test"
 object.
