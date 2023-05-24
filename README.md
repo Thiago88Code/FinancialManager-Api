@@ -9,6 +9,7 @@ Welcome! This is an API that simulates the functionality of a banking API. Key f
 - Transfers
 
 - Balance
+
 📄 The documentation for this API is currently under construction ⚒️
 
 
