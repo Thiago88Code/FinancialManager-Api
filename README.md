@@ -91,6 +91,12 @@ npm run seed
 ```
 npm run test
 ```
+### Some technologies used in this project:
+
+* [JavaScript](https://www.javascript.com/) - Programming languge
+* [Express](https://expressjs.com/) - Node.js framework
+* [Postgres](https://www.postgresql.org/) - Database
+* [Knex](https://knexjs.org/) - SQL query builder
 
 
 ⌨️ com ❤️ por [Thiago Souza](https://github.com/Thiago88Code) 😊
