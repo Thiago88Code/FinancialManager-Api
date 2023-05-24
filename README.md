@@ -10,7 +10,7 @@ Welcome! This is an API that simulates the functionality of a banking API. Key f
 
 - Balance
 
-📄 The documentation for this API is currently under construction 📄
+📄 The documentation for this API is currently under construction ⚒️
 
 
 ### 📋 Prerequisites
